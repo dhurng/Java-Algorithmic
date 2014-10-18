@@ -1,0 +1,57 @@
+/**
+ * 
+ * @author David Hurng
+ * CS 146 Hw#6
+ */
+public final class Collatz {
+	static Integer max = 1000500;
+	static Integer[] cycles = new Integer[max];
+	static int length;
+	static int largerNum;
+	static double cast;
+	static int j;
+	
+	public static int cycleLength(int n){
+		length = 0;
+		cast = (double) n;
+		while(cast != 1){ //casted double cannot be 1
+			j = (int) cast; //recast
+
+			if(max > cast && cycles[j] != null) {
+				return length + cycles[j];
+			}
+			if(cast % 2 == 0) {
+				cast = cast/2;
+			}
+			else {
+				cast = 3 * cast + 1;
+			}
+			length++;
+		}
+		return length + 1;
+	}
+	
+	public static int maximumCycle(int i, int j){
+		int max = 0;
+		int temp;
+		if(i > j){
+			largerNum = i;
+			i = j;
+			j = largerNum;
+		}
+		for(int a = i; a <= j; a++){
+			temp = 0;
+			if(cycles[a] != null) {
+				temp = cycles[a];
+			}
+			else{
+				temp = cycleLength(a);
+				cycles[a] = temp;
+			}
+			if(temp > max) {
+				max = temp; 
+			}
+		}
+		return max;
+	}
+}
